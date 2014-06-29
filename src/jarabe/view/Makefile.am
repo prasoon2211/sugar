@@ -12,6 +12,8 @@ sugar_PYTHON =				\
 	palettes.py			\
 	pulsingicon.py			\
 	service.py			\
+	socialmap.py		\
 	tabbinghandler.py		\
 	viewsource.py			\
-	viewhelp.py
+	viewhelp.py				\
+	viewsocial.py
