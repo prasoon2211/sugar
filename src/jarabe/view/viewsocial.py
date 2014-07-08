@@ -15,6 +15,8 @@
 import logging
 from gettext import gettext as _
 
+from gi.repository import Gio
+
 from sugar3.activity import activityfactory
 
 from jarabe.model import bundleregistry
@@ -25,8 +27,8 @@ _logger = logging.getLogger('Social Help Launched')
 
 SOCIAL_ACTIVITY_BUNDLE_ID = "org.laptop.SocialActivity"
 
-# TODO: Pick it from config
-FORUM_URL = "http://localhost:3000/"
+# TODO: Change to finalized global disocurse URL
+FORUM_URL = "http://http://54.187.40.150/"
 
 def setup_view_social(activity):
     activity_bundle_id = activity.get_bundle_id()
@@ -37,6 +39,10 @@ def setup_view_social(activity):
 
     activity_id = activityfactory.create_activity_id()
     bundle = bundleregistry.get_registry().get_bundle(SOCIAL_ACTIVITY_BUNDLE_ID)
+    settings = Gio.Settings('org.sugarlabs.collaboration')
+    social_server = settings.get_string('social-help-server')
+    if not social_server:
+        FORUM_URL = social_server
     try:
         uri = FORUM_URL + 'category/' + ACTIVITY_CATEGORY_MAP[activity_bundle_id]
     except KeyError:

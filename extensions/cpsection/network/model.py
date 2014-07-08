@@ -26,7 +26,7 @@ from gi.repository import NMClient
 from jarabe.model import network
 
 
-KEYWORDS = ['network', 'jabber', 'radio', 'server']
+KEYWORDS = ['network', 'jabber', 'radio', 'server', 'social']
 
 
 class ReadError(Exception):
@@ -57,6 +57,30 @@ def set_jabber(server):
     from gi.repository import GConf
     client = GConf.Client.get_default()
     client.set_string('/desktop/sugar/collaboration/jabber_server', server)
+
+    return 0
+
+
+def get_social():
+    settings = Gio.Settings('org.sugarlabs.collaboration')
+    return settings.get_string('social-help-server')
+
+
+def print_social():
+    print get_social()
+
+
+def set_social(server):
+    """Set the social-help server
+    server : e.g. 'discuss.sugarlabs.org'
+    """
+    settings = Gio.Settings('org.sugarlabs.collaboration')
+    settings.set_string('social-help-server', server)
+
+    # DEPRECATED
+    from gi.repository import GConf
+    client = GConf.Client.get_default()
+    client.set_string('/desktop/sugar/collaboration/social_help_server', server)
 
     return 0
 
