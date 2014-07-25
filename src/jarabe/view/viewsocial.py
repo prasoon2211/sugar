@@ -23,29 +23,32 @@ from jarabe.model import bundleregistry
 from jarabe.journal.misc import launch
 from jarabe.view.socialmap import ACTIVITY_CATEGORY_MAP
 
-_logger = logging.getLogger('Social Help Launched')
+logging.debug('Social Help Launched')
 
 SOCIAL_ACTIVITY_BUNDLE_ID = "org.laptop.SocialActivity"
 
 # TODO: Change to finalized global disocurse URL
-FORUM_URL = "http://http://54.187.40.150/"
+FORUM_URL = "54.187.40.150"
 
-def setup_view_social(activity):
-    activity_bundle_id = activity.get_bundle_id()
-    window_xid = activity.get_xid()
-    if window_xid is None:
-        _logger.error('Activity without a window xid')
-        return
 
+def setup_view_social(activity_bundle_id):
     activity_id = activityfactory.create_activity_id()
-    bundle = bundleregistry.get_registry().get_bundle(SOCIAL_ACTIVITY_BUNDLE_ID)
+    bundle = bundleregistry.get_registry().\
+        get_bundle(SOCIAL_ACTIVITY_BUNDLE_ID)
     settings = Gio.Settings('org.sugarlabs.collaboration')
     social_server = settings.get_string('social-help-server')
-    if not social_server:
-        FORUM_URL = social_server
+    uri = "http://"
+    if social_server:
+        uri += social_server
+    else:
+        uri += FORUM_URL
+
     try:
-        uri = FORUM_URL + 'category/' + ACTIVITY_CATEGORY_MAP[activity_bundle_id]
+        uri += '/category/' + ACTIVITY_CATEGORY_MAP[activity_bundle_id]
     except KeyError:
-        _logger.error('Key Error: Map not found for activity')
+        logging.error('Key Error: Map not found for activity')
     else:
         launch(bundle, activity_id=activity_id, uri=uri)
+
+def check_activity_category(activity_bundle_id):
+    return bool(ACTIVITY_CATEGORY_MAP.get(activity_bundle_id, None))

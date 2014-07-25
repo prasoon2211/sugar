@@ -22,4 +22,4 @@ def handle_key_press(key):
     shell_model = shell.get_model()
     activity = shell_model.get_active_activity()
 
-    setup_view_social(activity)
+    setup_view_social(activity.get_bundle_id())

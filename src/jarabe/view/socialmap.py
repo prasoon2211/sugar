@@ -14,5 +14,13 @@
 
 ACTIVITY_CATEGORY_MAP = {
     'org.laptop.Terminal': 'terminal',
-    'org.laptop.Chat': 'chat'
+    'org.laptop.Chat': 'chat',
+    'org.laptop.AbiWordActivity': 'write',
+    'org.laptop.Pippy': 'pippy',
+    'org.laptop.WebActivity': 'browse',
+    'org.tuxpaint': 'tuxpaint',
+    'vu.lux.olpc.Speak': 'speak',
+    'org.laptop.physics': 'physics',
+    'org.laptop.Oficina': 'paint',
+    'org.sugarlabs.MusicKeyboard': 'music-keyboard'
 }
